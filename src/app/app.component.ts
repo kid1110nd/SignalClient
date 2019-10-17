@@ -39,7 +39,7 @@ export class AppComponent {
   }
 
   private startHttpRequest = () => {
-    this.http.get('https://signalr.conektelecom.com/api/chart/start')
+    this.http.get('https://signalr.conektelecom.com/SignalR/Start')
       .subscribe(res => {
         console.log(res);
       })

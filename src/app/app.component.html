@@ -1,11 +1,15 @@
-<br><br>
-<div *ngIf='data' style="width: 50%; height: 50%;">
-  <canvas baseChart [datasets]="data" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend"
-    [chartType]="chartType" [colors]="colors" (chartClick)="chartClicked($event)"></canvas>
+<div>
+  <div>luan.nguyen demo SignalR</div>
+  <div>URL: https://signalr.conektelecom.com/</div>
+  <br><br>
+  <div *ngIf='data' style="width: 50%; height: 50%;">
+    <canvas baseChart [datasets]="data" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend"
+      [chartType]="chartType" [colors]="colors" (chartClick)="chartClicked($event)"></canvas>
+  </div>
+  <br><br>
+  <ul>
+    <li *ngFor='let dt of data'>
+      <strong>Label: </strong> {{ dt.label }} - <strong>Value: </strong> {{ dt.data[0] }}
+    </li>
+  </ul>
 </div>
-<br><br>
-<ul>
-  <li *ngFor='let dt of data'>
-    <strong>Label: </strong> {{ dt.label }} - <strong>Value: </strong> {{ dt.data[0] }}
-  </li>
-</ul>
