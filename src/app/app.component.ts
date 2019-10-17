@@ -10,11 +10,24 @@ import { HubService } from './hub.service';
 })
 
 export class AppComponent {
-  public title = 'SignalClient';
-  public data: ReceiveModel[];
+  public chartOptions: any = {
+    scaleShowVerticalLines: true,
+    responsive: true,
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  };
 
-  public viewLabel: string = '';
-  public viewValue: string = '';
+  public chartLabels: string[] = ['luan demo: Real time data for the chart'];
+  public chartType: string = 'bar';
+  public chartLegend: boolean = true;
+  public colors: any[] = [{ backgroundColor: '#5491DA' }, { backgroundColor: '#E74C3C' }, { backgroundColor: '#82E0AA' }, { backgroundColor: '#E5E7E9' }]
+
+  public data: ReceiveModel[];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -36,12 +49,7 @@ export class AppComponent {
     this.hubService.listenEvent('transferchartdata').subscribe(data => {
       if (data) {
         this.data = <ReceiveModel[]>data;
-        if (this.data.length > 0) {
-          this.viewLabel = this.data[0].label;
-          let obj: any = <any>this.data[0].data;
-          this.viewValue = obj[0];
-          console.log('Label: ' + this.viewLabel + '     Value: ' + this.viewValue);
-        }
+        console.log(data);
       }
     });
   }
