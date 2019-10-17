@@ -5,8 +5,10 @@ import { Observable, fromEventPattern } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class HubService {
-  private hubConnection: SignalR.HubConnection;
+  public hubConnection: SignalR.HubConnection;
+
   constructor(private ngZone: NgZone) {
     this.startConnection();
   }

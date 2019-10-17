@@ -1,5 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import * as SignalR from "@aspnet/signalr";
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ReceiveModel } from './models/ReceiveModel';
 import { HubService } from './hub.service';
@@ -10,43 +9,27 @@ import { HubService } from './hub.service';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent {
   public title = 'SignalClient';
   public data: ReceiveModel[];
-  public bradcastedData: ReceiveModel[];
-  private hubConnection: SignalR.HubConnection
 
   public viewLabel: string = '';
   public viewValue: string = '';
 
   constructor(
-    private http: HttpClient,
     private cdr: ChangeDetectorRef,
-    private hubService: HubService
-  ) { }
-
-  ngOnInit() {
-    this.startConnection();
+    private hubService: HubService,
+    private http: HttpClient
+  ) {
     this.addTransferChartDataListener();
-    this.addBroadcastChartDataListener();
     this.startHttpRequest();
   }
 
   private startHttpRequest = () => {
-    this.http.get('https://signalr.conektelecom.com/api/chart')
+    this.http.get('https://signalr.conektelecom.com/api/chart/start')
       .subscribe(res => {
         console.log(res);
       })
-  }
-
-  public startConnection = () => {
-    this.hubConnection = new SignalR.HubConnectionBuilder()
-      .withUrl('https://signalr.conektelecom.com/chart')
-      .build();
-
-    this.hubConnection.start()
-      .then(() => console.log('Connection started'))
-      .catch(err => console.log('Error while starting connection: ' + err))
   }
 
   public addTransferChartDataListener = () => {
@@ -61,16 +44,5 @@ export class AppComponent implements OnInit {
         }
       }
     });
-  }
-
-  public broadcastChartData = () => {
-    this.hubConnection.invoke('broadcastchartdata', this.data)
-      .catch(err => console.error(err));
-  }
-
-  public addBroadcastChartDataListener = () => {
-    this.hubConnection.on('broadcastchartdata', (data) => {
-      this.bradcastedData = data;
-    })
   }
 }
