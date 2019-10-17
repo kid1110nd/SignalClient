@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import * as SignalR from "@aspnet/signalr";
 import { HttpClient } from '@angular/common/http';
 import { ReceiveModel } from './models/ReceiveModel';
+import { HubService } from './hub.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,11 @@ export class AppComponent implements OnInit {
   public viewLabel: string = '';
   public viewValue: string = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+    private hubService: HubService
+  ) { }
 
   ngOnInit() {
     this.startConnection();
@@ -45,7 +50,7 @@ export class AppComponent implements OnInit {
   }
 
   public addTransferChartDataListener = () => {
-    this.hubConnection.on('transferchartdata', (data) => {
+    this.hubService.listenEvent('transferchartdata').subscribe(data => {
       if (data) {
         this.data = <ReceiveModel[]>data;
         if (this.data.length > 0) {
