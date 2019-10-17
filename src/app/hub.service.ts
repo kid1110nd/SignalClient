@@ -41,8 +41,4 @@ export class HubService {
       };
     });
   }
-
-  public chartClicked = (event) => {
-    console.log(event);
-  }
 }

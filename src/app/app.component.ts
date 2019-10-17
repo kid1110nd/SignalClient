@@ -53,4 +53,8 @@ export class AppComponent {
       }
     });
   }
+
+  public chartClicked = (event) => {
+    console.log(event);
+  }
 }
